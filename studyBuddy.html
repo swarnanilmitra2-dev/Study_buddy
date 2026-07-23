@@ -1,13 +1,998 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Road2Grade | Exam Roadmap Builder</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --ink: #111827;
+      --muted: #667085;
+      --panel: #ffffff;
+      --line: #e5e7eb;
+      --blue: #2563eb;
+      --blue-soft: #dbeafe;
+      --teal: #0f766e;
+      --teal-soft: #ccfbf1;
+      --coral: #f97316;
+      --coral-soft: #ffedd5;
+      --violet: #7c3aed;
+      --violet-soft: #ede9fe;
+      --shadow: 0 20px 45px rgba(15, 23, 42, 0.09);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        linear-gradient(135deg, rgba(37, 99, 235, 0.13), transparent 32%),
+        linear-gradient(225deg, rgba(20, 184, 166, 0.16), transparent 36%),
+        var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app-shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 48px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0 26px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--blue), var(--teal));
+      box-shadow: 0 12px 25px rgba(37, 99, 235, 0.25);
+      flex: 0 0 auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1.4rem;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ghost-btn,
+    .primary-btn {
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: var(--radius);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+
+    .ghost-btn {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--line);
+    }
+
+    .primary-btn {
+      color: white;
+      background: var(--ink);
+      box-shadow: 0 14px 26px rgba(17, 24, 39, 0.18);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+
+    .intro {
+      padding: 34px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: #101827;
+      color: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro::after {
+      content: "";
+      position: absolute;
+      inset: auto 24px 22px auto;
+      width: 210px;
+      height: 140px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.45;
+    }
+
+    .intro-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px;
+      color: #bfdbfe;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .intro h2 {
+      margin: 0;
+      font-size: clamp(2.3rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: 0;
+    }
+
+    .intro p {
+      margin: 20px 0 0;
+      color: #dbeafe;
+      line-height: 1.7;
+      max-width: 520px;
+      font-size: 1rem;
+    }
+
+    .mini-stats {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 540px;
+      margin-top: 28px;
+    }
+
+    .mini-stat {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 14px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+
+    .mini-stat span {
+      color: #cbd5e1;
+      font-size: 0.82rem;
+    }
+
+    .planner {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      backdrop-filter: blur(16px);
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 0.83rem;
+      font-weight: 600;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.86rem;
+      font-weight: 750;
+      color: #344054;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--ink);
+      border-radius: var(--radius);
+      min-height: 44px;
+      padding: 11px 12px;
+      outline: none;
+      transition: 0.18s ease;
+    }
+
+    textarea {
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: white;
+      color: #344054;
+      border-radius: 999px;
+      min-height: 36px;
+      padding: 0 13px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .chip.active {
+      color: white;
+      border-color: var(--blue);
+      background: var(--blue);
+    }
+
+    .range-line {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="range"] {
+      padding: 0;
+      min-height: auto;
+      accent-color: var(--blue);
+      box-shadow: none;
+    }
+
+    .range-value {
+      min-width: 70px;
+      text-align: center;
+      background: var(--blue-soft);
+      color: #1d4ed8;
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      font-weight: 850;
+    }
+
+    .planner-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .mission-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--teal));
+      transition: width 0.25s ease;
+    }
+
+    .mission-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 12px;
+      border-radius: var(--radius);
+      background: #f8fafc;
+      border: 1px solid var(--line);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.25rem;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .playlist {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .resource {
+      display: grid;
+      grid-template-columns: 46px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: white;
+    }
+
+    .resource-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .resource h4 {
+      margin: 0 0 4px;
+      font-size: 0.92rem;
+    }
+
+    .resource p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .tag {
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 0.72rem;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+
+    .tag.video {
+      color: #b42318;
+      background: #fee4e2;
+    }
+
+    .tag.notes {
+      color: #065f46;
+      background: #d1fae5;
+    }
+
+    .tag.pyq {
+      color: #5b21b6;
+      background: var(--violet-soft);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+    }
+
+    .day-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: start;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 15px;
+      transition: 0.2s ease;
+    }
+
+    .day-card.done {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .day-number {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      background: var(--blue-soft);
+      color: #1d4ed8;
+      font-weight: 900;
+    }
+
+    .day-card:nth-child(3n + 2) .day-number {
+      background: var(--teal-soft);
+      color: var(--teal);
+    }
+
+    .day-card:nth-child(3n) .day-number {
+      background: var(--coral-soft);
+      color: var(--coral);
+    }
+
+    .day-content h3 {
+      margin: 0 0 7px;
+      font-size: 1rem;
+    }
+
+    .day-content p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+
+    .day-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: #f8fafc;
+      color: var(--ink);
+      font-weight: 900;
+    }
+
+    .check-btn.is-done {
+      color: white;
+      background: #16a34a;
+      border-color: #16a34a;
+    }
+
+    .empty-state {
+      border: 1px dashed #cbd5e1;
+      border-radius: var(--radius);
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .intro {
+        min-height: 360px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .app-shell {
+        width: min(100% - 20px, 1180px);
+        padding-top: 12px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-actions,
+      .planner-actions {
+        width: 100%;
+      }
+
+      .ghost-btn,
+      .primary-btn {
+        flex: 1;
+      }
+
+      .intro,
+      .planner,
+      .panel {
+        padding: 18px;
+      }
+
+      .form-grid,
+      .mini-stats,
+      .mission-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .day-card {
+        grid-template-columns: auto 1fr;
+      }
+
+      .day-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+      }
+
+      .resource {
+        grid-template-columns: 42px 1fr;
+      }
+
+      .resource .tag {
+        grid-column: 2;
+        width: max-content;
+      }
+    }
+  </style>
 </head>
 <body>
+  <main class="app-shell">
+    <nav class="topbar" aria-label="Main navigation">
+      <div class="brand">
+        <div class="brand-mark">R2G</div>
+        <div>
+          <h1>Road2Grade</h1>
+          <p>Personal exam roadmaps for college students.</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="ghost-btn" type="button" id="demoBtn">Load demo</button>
+        <button class="primary-btn" type="button" id="jumpBtn">Generate</button>
+      </div>
+    </nav>
 
+    <section class="hero">
+      <div class="intro">
+        <div class="intro-copy">
+          <p class="eyebrow">Roadmap + playlist + progress</p>
+          <h2>Turn exam stress into a daily plan.</h2>
+          <p>
+            Select your year, subjects, timeline, and daily hours. Road2Grade builds a focused study roadmap with video, notes, previous-question, and revision tasks.
+          </p>
+        </div>
+        <div class="mini-stats" aria-label="Roadmap highlights">
+          <div class="mini-stat">
+            <strong id="statDays">15</strong>
+            <span>study days</span>
+          </div>
+          <div class="mini-stat">
+            <strong id="statSubjects">3</strong>
+            <span>subjects</span>
+          </div>
+          <div class="mini-stat">
+            <strong id="statHours">45</strong>
+            <span>total hours</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="planner" id="plannerForm">
+        <h2 class="section-title">Build your roadmap <span>Step 1</span></h2>
+        <div class="form-grid">
+          <div class="field full">
+            <label>Which year are you in?</label>
+            <div class="chips" id="yearChips">
+              <button class="chip active" type="button" data-year="1st Year">1st Year</button>
+              <button class="chip" type="button" data-year="2nd Year">2nd Year</button>
+              <button class="chip" type="button" data-year="3rd Year">3rd Year</button>
+              <button class="chip" type="button" data-year="Final Year">Final Year</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="branch">Course / branch</label>
+            <select id="branch">
+              <option>Computer Science</option>
+              <option>Information Technology</option>
+              <option>Electronics</option>
+              <option>Mechanical</option>
+              <option>Commerce</option>
+              <option>Arts</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="examType">Exam type</label>
+            <select id="examType">
+              <option>Semester Exam</option>
+              <option>Internal Exam</option>
+              <option>Backlog Exam</option>
+              <option>Placement Prep</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="days">Roadmap length</label>
+            <select id="days">
+              <option value="7">7 days</option>
+              <option value="15" selected>15 days</option>
+              <option value="21">21 days</option>
+              <option value="30">30 days</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="hours">Daily study hours</label>
+            <div class="range-line">
+              <input id="hours" type="range" min="1" max="8" value="3" />
+              <span class="range-value" id="hoursValue">3 hrs</span>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="subjects">Subjects</label>
+            <textarea id="subjects" placeholder="Example: DBMS, Data Structures, Operating Systems">DBMS, Data Structures, Operating Systems</textarea>
+          </div>
+        </div>
+        <div class="planner-actions">
+          <button class="primary-btn" type="submit">Create roadmap</button>
+          <button class="ghost-btn" type="reset" id="resetBtn">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="dashboard" aria-label="Generated study dashboard">
+      <aside class="panel">
+        <h2 class="section-title">Today's mission <span id="studentLabel">1st Year</span></h2>
+        <div class="mission-card">
+          <div>
+            <h3 id="missionTitle">DBMS fundamentals + quick notes</h3>
+            <p id="missionCopy">Start with core definitions, watch one short concept video, then revise with 8 previous questions.</p>
+          </div>
+          <div>
+            <div class="progress-bar" aria-label="Roadmap progress">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+          <div class="mission-meta">
+            <div class="metric">
+              <strong id="doneCount">0</strong>
+              <span>done</span>
+            </div>
+            <div class="metric">
+              <strong id="leftCount">15</strong>
+              <span>left</span>
+            </div>
+            <div class="metric">
+              <strong id="scoreCount">0%</strong>
+              <span>progress</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="playlist" id="playlist"></div>
+      </aside>
+
+      <section class="panel">
+        <h2 class="section-title">Roadmap timeline <span id="roadmapInfo">15 days</span></h2>
+        <div class="timeline" id="timeline">
+          <div class="empty-state">Fill the form and generate your study roadmap.</div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const form = document.querySelector("#plannerForm");
+    const timeline = document.querySelector("#timeline");
+    const playlist = document.querySelector("#playlist");
+    const yearChips = document.querySelectorAll(".chip");
+    const hours = document.querySelector("#hours");
+    const hoursValue = document.querySelector("#hoursValue");
+    const demoBtn = document.querySelector("#demoBtn");
+    const jumpBtn = document.querySelector("#jumpBtn");
+    const resetBtn = document.querySelector("#resetBtn");
+
+    const subjectInput = document.querySelector("#subjects");
+    const daysInput = document.querySelector("#days");
+    const branchInput = document.querySelector("#branch");
+    const examInput = document.querySelector("#examType");
+
+    const statDays = document.querySelector("#statDays");
+    const statSubjects = document.querySelector("#statSubjects");
+    const statHours = document.querySelector("#statHours");
+    const studentLabel = document.querySelector("#studentLabel");
+    const roadmapInfo = document.querySelector("#roadmapInfo");
+    const missionTitle = document.querySelector("#missionTitle");
+    const missionCopy = document.querySelector("#missionCopy");
+    const doneCount = document.querySelector("#doneCount");
+    const leftCount = document.querySelector("#leftCount");
+    const scoreCount = document.querySelector("#scoreCount");
+    const progressFill = document.querySelector("#progressFill");
+
+    let selectedYear = "1st Year";
+    let completedDays = new Set();
+    let currentPlan = [];
+
+    const taskCycle = [
+      "Understand basics and make short notes",
+      "Watch a focused video and write key formulas",
+      "Solve important questions from previous exams",
+      "Practice problems and mark weak points",
+      "Revise the full unit with active recall",
+      "Attempt a timed mini test",
+      "Fix mistakes and create a final cheat sheet"
+    ];
+
+    const resourceTypes = [
+      { label: "Video", className: "video", icon: "YT" },
+      { label: "Notes", className: "notes", icon: "PDF" },
+      { label: "PYQ", className: "pyq", icon: "Q" }
+    ];
+
+    function getSubjects() {
+      return subjectInput.value
+        .split(",")
+        .map((subject) => subject.trim())
+        .filter(Boolean);
+    }
+
+    function updateStats() {
+      const days = Number(daysInput.value);
+      const subjects = getSubjects();
+      const dailyHours = Number(hours.value);
+      statDays.textContent = days;
+      statSubjects.textContent = Math.max(subjects.length, 1);
+      statHours.textContent = days * dailyHours;
+      hoursValue.textContent = `${dailyHours} hrs`;
+    }
+
+    function createPlan() {
+      const days = Number(daysInput.value);
+      const subjects = getSubjects();
+      const fallbackSubjects = subjects.length ? subjects : ["Main Subject"];
+      const plan = [];
+
+      for (let day = 1; day <= days; day++) {
+        const subject = fallbackSubjects[(day - 1) % fallbackSubjects.length];
+        const task = taskCycle[(day - 1) % taskCycle.length];
+        const isRevisionDay = day === days || day % 7 === 0;
+        const title = isRevisionDay ? `${subject}: Revision checkpoint` : `${subject}: ${task}`;
+        const detail = isRevisionDay
+          ? `Review weak topics, solve mixed questions, and prepare a one-page summary for ${examInput.value.toLowerCase()}.`
+          : `Spend ${hours.value} focused hour(s) on ${subject}. Finish one concept, one resource, and one practice block.`;
+
+        plan.push({ day, subject, title, detail });
+      }
+
+      return plan;
+    }
+
+    function renderTimeline(plan) {
+      timeline.innerHTML = "";
+      plan.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "day-card";
+        card.dataset.day = item.day;
+        card.innerHTML = `
+          <div class="day-number">${item.day}</div>
+          <div class="day-content">
+            <h3>${item.title}</h3>
+            <p>${item.detail}</p>
+          </div>
+          <div class="day-actions">
+            <button class="icon-btn" type="button" title="Open video">YT</button>
+            <button class="icon-btn" type="button" title="Open notes">PDF</button>
+            <button class="icon-btn check-btn" type="button" title="Mark done">OK</button>
+          </div>
+        `;
+        timeline.appendChild(card);
+      });
+    }
+
+    function renderPlaylist(subjects) {
+      playlist.innerHTML = "";
+      const sourceSubjects = subjects.length ? subjects.slice(0, 5) : ["Main Subject"];
+
+      sourceSubjects.forEach((subject, index) => {
+        const type = resourceTypes[index % resourceTypes.length];
+        const item = document.createElement("article");
+        item.className = "resource";
+        item.innerHTML = `
+          <div class="resource-icon" style="background:${index % 2 === 0 ? "var(--blue-soft)" : "var(--teal-soft)"}">${type.icon}</div>
+          <div>
+            <h4>${subject} starter resource</h4>
+            <p>${type.label === "Video" ? "Search a 20 minute concept video" : type.label === "Notes" ? "Add class notes or PDF summary" : "Solve repeated questions"}</p>
+          </div>
+          <span class="tag ${type.className}">${type.label}</span>
+        `;
+        playlist.appendChild(item);
+      });
+    }
+
+    function updateProgress() {
+      const total = currentPlan.length || Number(daysInput.value);
+      const done = completedDays.size;
+      const percent = total ? Math.round((done / total) * 100) : 0;
+
+      doneCount.textContent = done;
+      leftCount.textContent = Math.max(total - done, 0);
+      scoreCount.textContent = `${percent}%`;
+      progressFill.style.width = `${percent}%`;
+    }
+
+    function generateRoadmap() {
+      completedDays = new Set();
+      currentPlan = createPlan();
+      const subjects = getSubjects();
+      const firstSubject = subjects[0] || "Main Subject";
+
+      studentLabel.textContent = `${selectedYear} | ${branchInput.value}`;
+      roadmapInfo.textContent = `${daysInput.value} days | ${examInput.value}`;
+      missionTitle.textContent = `${firstSubject}: Start strong today`;
+      missionCopy.textContent = `Focus for ${hours.value} hour(s): learn one concept, save one resource, and solve a small practice set.`;
+
+      renderTimeline(currentPlan);
+      renderPlaylist(subjects);
+      updateProgress();
+      updateStats();
+    }
+
+    yearChips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        yearChips.forEach((item) => item.classList.remove("active"));
+        chip.classList.add("active");
+        selectedYear = chip.dataset.year;
+        studentLabel.textContent = selectedYear;
+      });
+    });
+
+    timeline.addEventListener("click", (event) => {
+      const button = event.target.closest(".check-btn");
+      if (!button) return;
+
+      const card = button.closest(".day-card");
+      const day = Number(card.dataset.day);
+
+      if (completedDays.has(day)) {
+        completedDays.delete(day);
+        button.classList.remove("is-done");
+        card.classList.remove("done");
+      } else {
+        completedDays.add(day);
+        button.classList.add("is-done");
+        card.classList.add("done");
+      }
+
+      updateProgress();
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      generateRoadmap();
+      document.querySelector(".dashboard").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    form.addEventListener("input", updateStats);
+    hours.addEventListener("input", updateStats);
+
+    demoBtn.addEventListener("click", () => {
+      selectedYear = "2nd Year";
+      yearChips.forEach((item) => item.classList.toggle("active", item.dataset.year === selectedYear));
+      branchInput.value = "Computer Science";
+      examInput.value = "Semester Exam";
+      daysInput.value = "15";
+      hours.value = "3";
+      subjectInput.value = "DBMS, Data Structures, Operating Systems";
+      generateRoadmap();
+    });
+
+    jumpBtn.addEventListener("click", () => {
+      form.requestSubmit();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      setTimeout(() => {
+        selectedYear = "1st Year";
+        yearChips.forEach((item) => item.classList.toggle("active", item.dataset.year === selectedYear));
+        completedDays = new Set();
+        currentPlan = [];
+        timeline.innerHTML = `<div class="empty-state">Fill the form and generate your study roadmap.</div>`;
+        playlist.innerHTML = "";
+        updateStats();
+        updateProgress();
+      }, 0);
+    });
+
+    generateRoadmap();
+  </script>
 </body>
 </html>
