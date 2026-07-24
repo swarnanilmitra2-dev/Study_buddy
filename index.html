@@ -8,15 +8,26 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header class="site-header">
         <nav class="navbar">
-            <div class="logo">
-                <h2>Study_Buddy</h2>
+            <a class="logo" href="#home" aria-label="Study Buddy home">
+                <span class="logo-mark" aria-hidden="true">SB</span>
+                <span>
+                    <strong>Study Buddy</strong>
+                    <small>Explore your future</small>
+                </span>
+            </a>
+            <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-navigation">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-panel" id="primary-navigation">
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#fields">Fields</a></li>
+                    <li><a href="#compare">Compare</a></li>
+                </ul>
+                <a href="#quiz" class="nav-cta">Take the quiz <span aria-hidden="true">→</span></a>
             </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#discover">Discover Your Interest</a></li>
-            </ul>
         </nav>
     </header>
 
@@ -34,7 +45,7 @@
     <section id="quiz" class="section quiz-section">
         <div id="discover" class="discover">
             <div class="container">
-                <h2>DISCOVER YOUR INTREST</h2>
+                <h2>DISCOVER YOUR INTEREST</h2>
             </div>
 
             <div class="container">
