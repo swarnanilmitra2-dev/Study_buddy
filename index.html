@@ -35,19 +35,47 @@
         <div id="discover" class="discover">
             <div class="container">
                 <h2>DISCOVER YOUR INTREST</h2>
-                <p class="quiz-desc">Answer 8 quick questions to get personalized recommendations</p>
-                
-                <div id="quiz-container">
-                    <!-- Quiz questions populated by JS -->
-                </div>
+            </div>
 
-                <div id="results" class="results hidden">
-                    <h3>Your Recommended Fields</h3>
-                    <div id="recommendations"></div>
-                    <button onclick="restartQuiz()" class="btn-secondary">Retake Quiz</button>
-                </div>
+            <div class="container">
+
+                <h1>🚀 CS RoadMap AI</h1>
+
+                    <p>
+                    Choose your domain and let AI create a personalized learning roadmap.
+                    </p>
+
+                    <select id="domain">
+
+                        <option>Web Development</option>
+                        <option>Cyber Security</option>
+                        <option>DevOps</option>
+                        <option>Artificial Intelligence</option>
+                        <option>Data Science</option>
+                        <option>Cloud Computing</option>
+                        <option>Android Development</option>
+
+                    </select>
+
+                    <select id="timeline">
+
+                    <option>1 Month</option>
+                    <option>3 Months</option>
+                    <option>6 Months</option>
+
+                </select>
+
+                <button onclick="generateRoadmap()">
+
+                Generate RoadMap
+
+                </button>
+
+                <div id="output"></div>
+
             </div>
         </div>
+        
     </section>
  
     <!-- Footer -->
