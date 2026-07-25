@@ -36,3 +36,82 @@ function generateRoadmap() {
         `;
     }
 }
+
+
+
+
+// const API_KEY = "";
+
+async function generateRoadmap() {
+
+    const domain = document.getElementById("domain").value;
+    const timeline = document.getElementById("timeline").value;
+    const output = document.getElementById("output");
+
+    output.innerHTML = "Generating AI Roadmap...";
+
+    const prompt = `
+Create a detailed roadmap for learning ${domain} in ${timeline}.
+
+Include:
+1. Week-wise timeline
+2. Topics to learn
+3. Free study materials
+4. YouTube channels[link]
+5. Practice projects
+6. Interview preparation
+7.WS3 School Material
+
+Format nicely with headings and bullet points.
+`;
+
+    try {
+
+        const response = await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [
+                        {
+                            role: "user",
+                            content: prompt
+                        }
+                    ],
+                    temperature: 0.7
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        console.log(data);
+
+        if (data.choices && data.choices.length > 0) {
+
+            output.innerHTML =
+                data.choices[0].message.content
+                .replace(/\n/g, "<br>");
+
+        } else {
+
+            output.innerHTML =
+                "Failed to generate roadmap.<br><pre>" +
+                JSON.stringify(data, null, 2) +
+                "</pre>";
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        output.innerHTML = "Network Error";
+
+    }
+}
+
