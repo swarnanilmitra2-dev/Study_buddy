@@ -1,50 +1,60 @@
-/* style.css */
-* {
+/* ==========================================================================
+   Base & Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
     scroll-behavior: smooth;
+    font-size: 100%;
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
     line-height: 1.6;
     color: #333;
-    scroll-behavior: smooth;
+    background-color: #fff;
+    overflow-x: hidden;
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    width: min(100% - 2rem, 1200px);
+    margin-inline: auto;
 }
 
-/* Header */
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
 .site-header {
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
     background: #001c68;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.16);
 }
 
 .navbar {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1rem 20px;
+    width: min(100% - 2rem, 1200px);
+    margin-inline: auto;
+    padding: 0.75rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    color: white;
-    height: 50px;
+    color: #ffffff;
+    min-height: 60px;
 }
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: white;
+    color: #ffffff;
     text-decoration: none;
 }
 
@@ -52,24 +62,29 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    background: white;
+    background: #ffffff;
     color: #001c68;
     font-weight: 700;
+    font-size: 1.1rem;
+    flex-shrink: 0;
 }
 
 .logo strong {
     display: block;
-    color: white;
+    color: #ffffff;
+    line-height: 1.2;
 }
 
 .logo small {
     display: block;
     color: #cbd5e1;
+    font-size: 0.75rem;
 }
 
+/* Mobile Menu Button */
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -78,15 +93,16 @@ body {
     border: 0;
     background: transparent;
     cursor: pointer;
-    padding: 0.3rem;
+    padding: 0.5rem;
+    z-index: 1001;
 }
 
 .menu-toggle span {
     width: 24px;
     height: 2px;
-    background: white;
+    background: #ffffff;
     border-radius: 2px;
-    transition: all 0.25s ease;
+    transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
 .menu-toggle.is-open span:nth-child(1) {
@@ -101,25 +117,26 @@ body {
     transform: translateY(-7px) rotate(-45deg);
 }
 
+/* Navigation Links */
 .nav-panel {
     display: flex;
     align-items: center;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 24px;
+    gap: 1.5rem;
     align-items: center;
 }
 
 .nav-links a,
 .nav-cta {
-    color: white;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .nav-links a:hover,
@@ -131,60 +148,79 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 1.25rem;
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 999px;
+    white-space: nowrap;
 }
 
-/* Hero */
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
 .hero {
-    background: linear-gradient(rgba(63, 61, 61, 0.85), rgba(23, 87, 146, 0.85)), url('https://picsum.photos/id/1015/2000/1200') center/cover;
-    color: white;
+    background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(23, 87, 146, 0.85)), 
+                url('https://picsum.photos/id/1015/2000/1200') center/cover no-repeat;
+    color: #ffffff;
     text-align: center;
-    padding: 160px 20px;
+    padding: clamp(80px, 15vw, 160px) 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .hero-content h1 {
-    font-size: 3.2rem;
+    font-size: clamp(2rem, 5vw, 3.2rem);
     margin-bottom: 1rem;
+    line-height: 1.2;
 }
 
 .hero-content p {
-    font-size: 1.3rem;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     max-width: 700px;
     margin: 0 auto 2rem;
+    opacity: 0.95;
 }
 
 .btn-primary {
-    background: #929eb1;
-    color: white;
-    padding: 14px 32px;
+    background: #2563eb;
+    color: #ffffff;
+    padding: 12px 32px;
     border: none;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
+    font-weight: 600;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
-    transition: transform 0.3s;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
 }
 
 .btn-primary:hover {
-    transform: translateY(-4px);
+    transform: translateY(-3px);
+    background: #1d4ed8;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
 }
 
-/* Sections */
+/* ==========================================================================
+   General Section Styles
+   ========================================================================== */
 .section {
-    padding: 80px 0;
-    background: white;
+    padding: clamp(50px, 8vw, 80px) 0;
+    background: #ffffff;
 }
 
-/* ==========================
+/* ==========================================================================
    CS RoadMap AI Section
-========================== */
-
+   ========================================================================== */
 .quiz-section {
     width: 100%;
-    padding: 90px 20px;
+    padding: clamp(50px, 8vw, 90px) 1rem;
     background: linear-gradient(135deg, #eef4ff, #dbe8ff);
     display: flex;
     justify-content: center;
@@ -192,19 +228,19 @@ body {
 }
 
 .discover {
-    width: 100%;
-    max-width: 1200px;
+    width: min(100%, 1200px);
+    margin: 0 auto;
 }
 
 .discover .container:first-child {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
 }
 
 .discover h2 {
-    font-size: 2.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     color: #0f172a;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     font-weight: 700;
     position: relative;
     display: inline-block;
@@ -212,61 +248,66 @@ body {
 
 .discover h2::after {
     content: "";
-    width: 80px;
+    width: 60px;
     height: 4px;
     background: #2563eb;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    bottom: -12px;
+    bottom: -10px;
     border-radius: 10px;
 }
 
-/* Main Card */
-
+/* Main Interactive Card */
 .discover .container:last-child {
-    max-width: 650px;
-    margin: auto;
-    background: rgba(255,255,255,0.75);
-    backdrop-filter: blur(15px);
-    border-radius: 25px;
-    padding: 45px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    width: min(100%, 650px);
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: clamp(16px, 3vw, 25px);
+    padding: clamp(20px, 5vw, 45px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
     text-align: center;
-    transition: 0.4s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .discover .container:last-child:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
 }
 
 .discover h1 {
-    font-size: 2.2rem;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
     color: #1e3a8a;
-    margin-bottom: 18px;
+    margin-bottom: 0.75rem;
 }
 
 .discover p {
-    font-size: 1.05rem;
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
     color: #475569;
-    margin-bottom: 35px;
-    line-height: 1.7;
+    margin-bottom: 2rem;
+    line-height: 1.6;
 }
 
-/* Dropdown */
-
+/* Dropdown & Inputs */
 .discover select {
     width: 100%;
-    padding: 15px 18px;
-    margin-bottom: 20px;
-    font-size: 16px;
+    padding: 14px 16px;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
     border: 2px solid #d1d5db;
     border-radius: 12px;
     outline: none;
-    background: #fff;
-    transition: 0.3s;
+    background: #ffffff;
+    color: #1e293b;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%3C334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
 }
 
 .discover select:hover {
@@ -275,172 +316,66 @@ body {
 
 .discover select:focus {
     border-color: #2563eb;
-    box-shadow: 0 0 10px rgba(37,99,235,.25);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-/* Button */
-
+/* Action Button */
 .discover button {
     width: 100%;
-    padding: 16px;
-    font-size: 17px;
-    font-weight: bold;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 600;
     border: none;
     border-radius: 12px;
-    background: linear-gradient(135deg,#2563eb,#1d4ed8);
-    color: white;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: #ffffff;
     cursor: pointer;
-    transition: .3s;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .discover button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px rgba(37,99,235,.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
 }
 
 .discover button:active {
-    transform: scale(.98);
+    transform: scale(0.98);
 }
 
 /* Output Box */
-
 #output {
-    margin-top: 30px;
+    margin-top: 1.75rem;
     text-align: left;
     background: #f8fafc;
-    border-left: 5px solid #2563eb;
-    border-radius: 10px;
-    padding: 20px;
+    border-left: 4px solid #2563eb;
+    border-radius: 8px;
+    padding: 1.25rem;
     min-height: 70px;
-    font-size: 16px;
+    font-size: 0.95rem;
     color: #334155;
-    line-height: 1.7;
+    line-height: 1.6;
     word-wrap: break-word;
     overflow-x: auto;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* ==========================
-      Tablet
-========================== */
-
-@media (max-width:992px){
-
-    .quiz-section{
-        padding:70px 20px;
-    }
-
-    .discover h2{
-        font-size:2.1rem;
-    }
-
-    .discover h1{
-        font-size:1.9rem;
-    }
-
-    .discover .container:last-child{
-        padding:35px;
-    }
-
-}
-
-/* ==========================
-      Mobile
-========================== */
-
-@media (max-width:768px){
-
-    .quiz-section{
-        padding:60px 15px;
-    }
-
-    .discover h2{
-        font-size:1.8rem;
-    }
-
-    .discover h1{
-        font-size:1.6rem;
-    }
-
-    .discover p{
-        font-size:0.95rem;
-    }
-
-    .discover .container:last-child{
-        padding:28px 22px;
-        border-radius:18px;
-    }
-
-    .discover select,
-    .discover button{
-        font-size:15px;
-        padding:14px;
-    }
-
-    #output{
-        font-size:15px;
-        padding:18px;
-    }
-
-}
-
-/* ==========================
-      Small Phones
-========================== */
-
-@media (max-width:480px){
-
-    .discover h2{
-        font-size:1.5rem;
-    }
-
-    .discover h1{
-        font-size:1.3rem;
-    }
-
-    .discover p{
-        font-size:0.9rem;
-        margin-bottom:25px;
-    }
-
-    .discover .container:last-child{
-        padding:22px 16px;
-    }
-
-    .discover select,
-    .discover button{
-        font-size:14px;
-        padding:13px;
-    }
-
-    #output{
-        font-size:14px;
-    }
-
-}
-
-/* Footer */
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
     background: #1e2937;
     color: #cbd5e1;
     text-align: center;
-    padding: 40px 20px;
+    padding: 2.5rem 1rem;
+    font-size: 0.95rem;
 }
 
-.discover {
-    border-radius: 35px;
-    border-color: #60a5fa;
-    background-color: #60a5fa8b;
-    margin: 55px auto;
-    min-height: 80vh;
-    width: min(90%, 1200px);
-    padding: 24px;
-}
-
-/* Responsive */
+/* ==========================================================================
+   Media Queries (Structural Breakpoints Only)
+   ========================================================================== */
 @media (max-width: 768px) {
     .menu-toggle {
-        display: inline-flex;
+        display: flex;
     }
 
     .nav-panel {
@@ -449,14 +384,15 @@ footer {
         left: 0;
         right: 0;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem 20px 1.25rem;
+        align-items: stretch;
+        padding: 1.25rem 1.5rem;
         background: #001c68;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
         pointer-events: none;
-        transition: all 0.25s ease;
+        transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
     }
 
     .nav-panel.is-open {
@@ -468,23 +404,15 @@ footer {
 
     .nav-links {
         flex-direction: column;
-        gap: 0.75rem;
+        gap: 1rem;
         width: 100%;
         align-items: flex-start;
     }
 
     .nav-cta {
-        margin-top: 0.25rem;
-    }
-
-    .hero-content h1 {
-        font-size: 2.4rem;
+        display: inline-block;
+        text-align: center;
+        margin-top: 0.5rem;
+        width: 100%;
     }
 }
-
-/* .container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-} */
